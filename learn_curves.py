@@ -96,10 +96,9 @@ def predict_learning_curve(train_set_size,error_test,error_train=None,pinit = [1
         logy2 = np.log10(y2)
         y2err = np.std(err_sum, axis = 1)
         logy2err = y2err / y
-        out2 = optimize.leastsq(errfunc, pinit,
-                           args=(logx, logy2, logy2err), full_output=1)
-        pfinal2 = out2[0]
-        a = (10.0**pfinal2[0]) / 2
+        #take mean of logy as best estimate of horizontal line
+        estimate = np.average(logy2,weights=logy2err)
+        a = (10.0**estimate) / 2
         return a,b,alpha
     
     elif error_train is not None and funcs==2:
